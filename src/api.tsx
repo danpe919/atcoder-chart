@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-const endpoint = 'https://atcoder.jp/users/';
+const endpoint =
+  'https://i2j5yfm1nb.execute-api.ap-northeast-1.amazonaws.com/Prod';
 
 export type ContestResult = {
   IsRated: boolean;
@@ -17,7 +17,7 @@ export type ContestResult = {
 
 export const fetchContestResult = async (userId: string) => {
   try {
-    const url = `${endpoint}/${userId}/history/json`;
+    const url = `${endpoint}/users/${userId}`;
     const response = await axios.get<ContestResult[]>(url);
     const data = response.data;
     const withTimestamp = data.map((e) => ({
@@ -28,21 +28,4 @@ export const fetchContestResult = async (userId: string) => {
   } catch (err) {
     console.error(err);
   }
-};
-
-export const useContestResult = (
-  userId: string
-): [ContestResult[], boolean] => {
-  const [results, setResults] = useState<ContestResult[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    const fetch = async () => {
-      setIsLoading(true);
-      const data = await fetchContestResult(userId);
-      if (data) setResults(data);
-      setIsLoading(false);
-    };
-    if (userId !== '') fetch();
-  }, [userId]);
-  return [results, isLoading];
 };

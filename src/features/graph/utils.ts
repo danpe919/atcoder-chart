@@ -1,5 +1,7 @@
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 import { ContestResult } from '../../api';
+import { RootState } from '../../store';
 
 export const useYtics = (results: ContestResult[]) => {
   const max = Math.max.apply(
@@ -30,13 +32,19 @@ type AverageProps = {
 };
 type AveragedResult = ContestResult & AverageProps;
 
-export function calcMovingAverage(
-  results: ContestResult[],
-  shortWindowSize: number,
-  longWindowSize: number
-) {
-  let ret = calcSingleMovingAverage(results, shortWindowSize, 'ShortAverage');
-  ret = calcSingleMovingAverage(ret, longWindowSize, 'LongAverage');
+const SEC_PER_MONTH = 3600 * 24 * 30;
+
+export function useMovingAverage(results: ContestResult[]) {
+  const { shortWindow, longWindow } = useSelector(
+    (state: RootState) => state.timeWindow
+  );
+
+  let ret = calcSingleMovingAverage(
+    results,
+    shortWindow * SEC_PER_MONTH,
+    'ShortAverage'
+  );
+  ret = calcSingleMovingAverage(ret, longWindow * SEC_PER_MONTH, 'LongAverage');
   return ret;
 }
 

@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import {
   CartesianGrid,
   Legend,
@@ -11,26 +10,20 @@ import {
   YAxis,
 } from 'recharts';
 import { ContestResult } from '../../api';
-import { RootState } from '../../store';
 import { colorDefinitions, unixTimeToString } from '../../utils';
 import './graph.css';
 import { CustomTooltip } from './ToolTip';
-import { calcMovingAverage, useXtics, useYtics } from './utils';
+import { useMovingAverage, useXtics, useYtics } from './utils';
 
 type Props = {
   results: ContestResult[];
 };
 
-const SEC_PER_MONTH = 3600 * 24 * 30;
-
 function ResultsGraph({ results }: Props) {
   const yTicks = useYtics(results);
   const xTicks = useXtics(results);
 
-  const timeWindow = useSelector((state: RootState) => state.timeWindow);
-  const short = timeWindow.shortWindow * SEC_PER_MONTH;
-  const long = timeWindow.longWindow * SEC_PER_MONTH;
-  const averaged = calcMovingAverage(results, short, long);
+  const averaged = useMovingAverage(results);
 
   const handleClick = (e: any) => {
     if (!e || e.activePayload === null) return;

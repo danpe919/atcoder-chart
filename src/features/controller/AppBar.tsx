@@ -66,10 +66,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type AppBarProps = {
+  userId: string;
   onUserIdChanged: (userId: string) => void;
 };
 
-export default function SeachAppBar({ onUserIdChanged }: AppBarProps) {
+export default function SeachAppBar({ userId, onUserIdChanged }: AppBarProps) {
   const classes = useStyles();
 
   const handleReload = (id: string) => {
@@ -81,13 +82,14 @@ export default function SeachAppBar({ onUserIdChanged }: AppBarProps) {
       <AppBar position='static'>
         <Toolbar>
           <Typography className={classes.title} variant='h6' noWrap>
-            Atcoder Average Performance
+            Atcoder Performance Chart
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <PersonIcon />
             </div>
             <InputWithReload
+              defaultText={userId}
               classes={{ root: classes.inputRoot, input: classes.inputInput }}
               onReload={handleReload}
             />

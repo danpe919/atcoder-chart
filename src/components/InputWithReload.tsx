@@ -1,23 +1,28 @@
 import { IconButton } from '@material-ui/core';
 import InputBase, { InputBaseClassKey } from '@material-ui/core/InputBase';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
-import { useState } from 'react';
+import React, { KeyboardEvent, useState } from 'react';
 
 type Props = {
+  defaultText?: string;
   onReload: (e: string) => void;
   classes?: Partial<Record<InputBaseClassKey, string>>;
 };
 
-const InputWithReload = ({ onReload, classes }: Props) => {
-  const [value, setValue] = useState('');
+const InputWithReload = ({ defaultText, onReload, classes }: Props) => {
+  const [value, setValue] = useState(defaultText);
   const [prevValue, setPrevValue] = useState('');
-  const handleChange = (text: string) => {
-    setValue(text);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
   };
 
-  const handleClick = () => {
+  const update = () => {
     if (value && value !== prevValue) onReload(value);
-    setPrevValue(value);
+    if (value) setPrevValue(value);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') update();
   };
 
   return (
@@ -26,9 +31,11 @@ const InputWithReload = ({ onReload, classes }: Props) => {
         placeholder='User ID'
         classes={classes}
         inputProps={{ 'aria-label': 'search' }}
-        onChange={(e) => handleChange(e.target.value)}
+        defaultValue={defaultText}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={update}>
         <AutorenewIcon />
       </IconButton>
     </>
