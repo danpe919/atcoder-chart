@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-const defaultValue = localStorage.getItem('userName') || '';
+const params = new URL(window.location.href).searchParams;
+
+const defaultValue =
+  params.get('user') || localStorage.getItem('userName') || '';
 
 export default function useUserName(): [
   string,
