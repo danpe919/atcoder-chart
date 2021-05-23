@@ -20,7 +20,7 @@ export const TimeWindowSlider = ({
   value?: number;
   onChange: (e: number) => void;
 }) => {
-  const [defaultValue, setDefaultValue] = useState<number | undefined>(value);
+  const [defaultValue] = useState<number | undefined>(value);
 
   const handleChanged = (e: number | number[]) => {
     if (typeof e === 'number') {
