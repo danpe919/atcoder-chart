@@ -36,7 +36,7 @@ const SEC_PER_MONTH = 3600 * 24 * 30;
 
 export function useMovingAverage(results: ContestResult[]) {
   const { shortWindow, longWindow } = useSelector(
-    (state: RootState) => state.timeWindow
+    (state: RootState) => state.settings
   );
 
   let ret = calcSingleMovingAverage(
@@ -46,6 +46,12 @@ export function useMovingAverage(results: ContestResult[]) {
   );
   ret = calcSingleMovingAverage(ret, longWindow * SEC_PER_MONTH, 'LongAverage');
   return ret;
+}
+
+export function useRatedFilter(results: ContestResult[]) {
+  const ratedOnly = useSelector((state: RootState) => state.settings.ratedOnly);
+  if (ratedOnly) return results.filter((value) => value.IsRated);
+  return results;
 }
 
 function calcSingleMovingAverage(

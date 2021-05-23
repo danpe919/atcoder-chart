@@ -6,7 +6,7 @@ import { RootState } from '../store';
 
 export default function ShareButton() {
   const { shortWindow, longWindow } = useSelector(
-    (state: RootState) => state.timeWindow
+    (state: RootState) => state.settings
   );
   const [userId] = useUserName();
   const url = `https://atcoder-chart.web.app/user=${userId}&short=${shortWindow}&long=${longWindow}`;

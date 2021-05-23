@@ -12,8 +12,8 @@ import {
 import { ContestResult } from '../../api';
 import { colorDefinitions, unixTimeToString } from '../../utils';
 import './graph.css';
+import { useMovingAverage, useRatedFilter, useXtics, useYtics } from './hooks';
 import { CustomTooltip } from './ToolTip';
-import { useMovingAverage, useXtics, useYtics } from './utils';
 
 type Props = {
   results: ContestResult[];
@@ -24,6 +24,7 @@ function ResultsGraph({ results }: Props) {
   const xTicks = useXtics(results);
 
   const averaged = useMovingAverage(results);
+  const data = useRatedFilter(averaged);
 
   const handleClick = (e: any) => {
     if (!e || e.activePayload === null) return;
@@ -34,7 +35,7 @@ function ResultsGraph({ results }: Props) {
   return (
     <div className='graph'>
       <ResponsiveContainer>
-        <LineChart data={averaged} onClick={handleClick}>
+        <LineChart data={data} onClick={handleClick}>
           <XAxis
             dataKey='TimeStamp'
             domain={['dataMin', 'dataMax']}
