@@ -1,4 +1,4 @@
-import { Slider, Typography } from '@material-ui/core';
+import { Grid, Slider, Typography } from '@material-ui/core';
 import { useState } from 'react';
 
 function valuetext(value: number) {
@@ -29,19 +29,23 @@ export const TimeWindowSlider = ({
   };
 
   return (
-    <>
-      <Typography gutterBottom>{`${title} (${value}-months)`}</Typography>
-      <Slider
-        defaultValue={defaultValue}
-        getAriaValueText={valuetext}
-        aria-labelledby='discrete-slider'
-        valueLabelDisplay='auto'
-        step={step ?? 1}
-        marks
-        min={min ?? 1}
-        max={max ?? 12}
-        onChange={(e, value) => handleChanged(value)}
-      />
-    </>
+    <Grid container>
+      <Grid xs={3}>
+        <Typography gutterBottom>{`${title} (${value}-months)`}</Typography>
+      </Grid>
+      <Grid xs={9}>
+        <Slider
+          defaultValue={defaultValue}
+          getAriaValueText={valuetext}
+          aria-labelledby='discrete-slider'
+          valueLabelDisplay='auto'
+          step={step ?? 1}
+          marks
+          min={min ?? 1}
+          max={max ?? 12}
+          onChange={(e, value) => handleChanged(value)}
+        />
+      </Grid>
+    </Grid>
   );
 };

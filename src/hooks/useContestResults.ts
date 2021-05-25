@@ -20,7 +20,7 @@ export default function useContestResult(userId: string): Result {
 
   useEffect(() => {
     refresh();
-  }, [userId, refresh]);
+  }, [userId]);
 
   return { results, isLoading };
 }
