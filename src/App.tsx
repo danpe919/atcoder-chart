@@ -20,13 +20,13 @@ function App() {
       <div className='App'>
         <SearchAppBar userId={userId} onUserIdChanged={handleChanged} />
         <Grid container style={{ marginTop: '30px' }}>
-          <Grid item xs={3}>
+          <Grid item xs={12} lg={3}>
             <Card className='card'>
               <Controller />
             </Card>
             <ShareButton />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={12} lg={9}>
             <Card className='card'>
               {isLoading ? null : <ResultsGraph results={results} />}
             </Card>
